@@ -1,4 +1,5 @@
 import random
+import nltk
 
 BOT_CONFIG = {
     'intents': {
@@ -27,7 +28,10 @@ def filter_text(text):
 def get_intent(question):
     for intent, intent_data in BOT_CONFIG['intents'].items():
         for example in intent_data['example']:
-            if filter_text(example) == filter_text(question):
+            filtered_example = filter_text(example)
+            dist = nltk.edit_distance(filtered_example, filter_text(question))
+
+            if dist / len(filtered_example) < 0.4:
                 return intent
 
 
