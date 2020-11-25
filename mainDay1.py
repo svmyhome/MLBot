@@ -18,11 +18,16 @@ BOT_CONFIG = {
     ]
 }
 
+def filter_text(text):
+    text = text.lower()
+    text = [c for c in text if c in 'абвгдеёжзийклмнопрстуфхцчшщэъыьюя- ']
+    text = ''.join(text)
+    return text
 
 def get_intent(question):
     for intent, intent_data in BOT_CONFIG['intents'].items():
         for example in intent_data['example']:
-            if example == question:
+            if filter_text(example) == filter_text(question):
                 return intent
 
 
